@@ -14,6 +14,18 @@ For time, we used a scale of around 1-10, with 1 being the lowest.
 2. User can enter text and attempt to log-in
 3. User information is compared to database and login is accepted if found. 
 
+### Generate Resume on Site
+---
+- As someone looking to get my resume out to employers, I want to be able to generate a resume from an online form so that I don’t have to make one myself
+- Priority: 3
+- Time: 3
+- Confirmation: User can create a resume from the online form.
+
+1. Empty resume form appears
+2. Resume form can be edited.
+3. Resume form can be saved and published when finished.
+
+
 ### Upload Projects to Portfolio
 ---
 - As a creator, I want to be able to upload my projects to a portfolio so that future employers can see them so that I won't have to email or physically get one instead.
@@ -24,17 +36,6 @@ For time, we used a scale of around 1-10, with 1 being the lowest.
 1. User can access their portfolio
 2. User can upload file to the portfolio
 3. User files appear when accessing the portfolio
-
-### Generate Portfolio on Site
----
-- As someone looking to get my resume out to employers, I want to be able to generate a resume from an online form so that I don’t have to make one myself
-- Priority: 3
-- Time: 3
-- Confirmation: User can create a resume from the online form.
-
-1. Empty resume form appears
-2. Resume form can be edited.
-3. Resume form can be saved and published when finished.
 
 ### Easily share Resume
 ---
@@ -134,7 +135,7 @@ For time, we used a scale of around 1-10, with 1 being the lowest.
 - Time: 1
 - Confirmation: Files can be filtered by keywords
 
- 1. An entry box appears that can be inputed into
+ 1. An entry box appears that can be inputted into
  2. When something is entered, resumes results are filtered
 
 ### Search Portfolios by Type
