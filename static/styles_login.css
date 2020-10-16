@@ -1,0 +1,87 @@
+/*Sets proper margins for login box*/
+
+* {
+    margin: 0;
+    padding: 0
+}
+
+
+/*Sets background color for page and lowers login box from top of screen*/
+
+body {
+    background: linear-gradient(110deg, #684EDE 30%, #CDFF42);
+    padding-top: 20vh;
+}
+
+
+/*Formats the login box*/
+
+.format-loginbox {
+    width: 250px;
+    height: auto;
+    padding: 20px 30px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 #000;
+    margin: auto;
+    position: relative;
+}
+
+
+/*Sets size for input boxes*/
+
+dl.format-text input {
+    width: 250px;
+    text-align: center;
+    padding: 9px 0px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d3d3d3;
+}
+
+
+/*Changes button color*/
+
+dl.format-text input[type="button"] {
+    background-color: #684EDE;
+    color: #fff;
+}
+
+
+/*Changes button color when hovered over*/
+
+dl.format-text input[type="button"]:hover {
+    background-color: #4690fb;
+    color: #fff;
+}
+
+
+/*Formats 'Forget Password'*/
+
+dd.forget {
+    color: blue;
+    text-decoration: underline;
+}
+
+
+/*Adds space under 'Login' for cleaner design*/
+
+dd.login-text {
+    margin-bottom: 10px;
+}
+
+
+/*Adds and formats logo
+Colors for logo #684EDE #CDFF42*/
+
+.logo-img {
+    background: url('Portfolios_logo.png') no-repeat;
+    width: 80px;
+    height: 80px;
+    background-size: 100%;
+    position: absolute;
+    top: -60px;
+    left: 120px;
+}
