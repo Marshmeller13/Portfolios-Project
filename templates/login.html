@@ -1,17 +1,22 @@
-{% extends "layout.html" %}
-{% block body %}
-    <head>
+<head>
     <title>Login Page</title>
-    </head>
-  <h2>Login</h2>
-  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
-  <form action="{{ url_for('login') }}" method="post">
-    <dl>
-      <dt>Username:
-      <dd><input type="text" name="username">
-      <dt>Password:
-      <dd><input type="password" name="password">
-      <dd><input type="submit" value="Login">
+    <link rel="stylesheet" href="styles_login.css">
+</head>
+
+<!--Classes connect to CSS file for styling-->
+<div class="format-loginbox">
+    <div class="logo-img"></div>
+    <dl class="format-text">
+        <dd class="login-text">
+            <h2>Login</h2>
+        </dd>
+
+        <!--Inputs for username and password-->
+        <dd><input type="text" name="username" placeholder="Username">
+            <dd><input type="password" name="password" placeholder="Password">
+                <!--Login Button-->
+                <dd><input type="button" name="submit" value="Login">
+                    <!--Will be link for if users forget their password-->
+                    <dd class="forget">Forget Password?</dd>
     </dl>
-  </form>
-{% endblock %}
+</div>
