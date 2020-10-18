@@ -1,6 +1,9 @@
 import os
 from flask import Flask, request, g, redirect, url_for, render_template, flash, session
 from sqlite3 import dbapi2 as sqlite3
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
 app = Flask(__name__)
 
 
@@ -55,7 +58,7 @@ def show_resume():
     cur = db.execute('SELECT id, name, age, work_exp, education_hs, education_college, graduated FROM resume_entries ORDER BY id DESC')
     resume_entries = cur.fetchall()
 
-    return render_template('resume_template_orig.html', resume_entries = resume_entries)
+    return render_template('login.html', resume_entries = resume_entries)
 
 
 
@@ -71,14 +74,33 @@ def create_resume():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('show_entries'))
-    return render_template('login.html', error=error)
+
+        #get submitted username and password
+        username = request.form['username']
+        password = request.form['password']
+
+        #set error to none to be changed if program encounters an error
+        error = None
+
+        #query database for username
+        db = get_db()
+        user = db.execute('select * from user where username = ?', (username,)).fetchone()
+
+        #if statement for if username matches any users, then checks password associated with account
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        #if no errors encountered, redirect to homepage/dashboard (with framework for setting up a session id within cookies of browser)
+        if error is None:
+            #session.clear()
+            #session['user_id'] = user['id']
+            return render_template('resume_template_orig.html')
+
+        #flash error encountered (if any)
+        flash(error)
+
+    return render_template('login.html')
+
