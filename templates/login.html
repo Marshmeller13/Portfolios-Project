@@ -1,6 +1,6 @@
 <head>
     <title>Login Page</title>
-    <link rel="stylesheet" href="styles_login.css">
+    <link href="static/styles_login.css" rel="stylesheet" type="text/css">
 </head>
 
 <!--Classes connect to CSS file for styling-->
@@ -12,11 +12,13 @@
         </dd>
 
         <!--Inputs for username and password-->
-        <dd><input type="text" name="username" placeholder="Username">
-            <dd><input type="password" name="password" placeholder="Password">
-                <!--Login Button-->
-                <dd><input type="button" name="submit" value="Login">
-                    <!--Will be link for if users forget their password-->
-                    <dd class="forget">Forget Password?</dd>
+        <form action="{{ url_for('login') }}" method="post">
+            <input name="username" id="username" placeholder="Username" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="submit" value="Log In">
+        </form>
+
+            <!--Will be link for if users forget their password-->
+            <dd class="forget">Forget Password?</dd>
     </dl>
 </div>

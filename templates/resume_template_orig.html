@@ -1,7 +1,23 @@
 <!doctype html>
 <title>Create Resume</title>
-<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"> -->
-<div class="page">
 
+<div class="page">
+  <form action="{{ url_for('create_resume') }}" method="post" class="create_resume">
+    <dl>
+      <dt>Name:
+      <dd><input type="text" size="30" name="name">
+      <dt>Age:
+      <dd><input type="text" size = "30" name = "age">
+      <dt>Work Experience:
+      <dd><input type="text" size = "30" name = "work_exp">
+      <dt>High School Education:
+      <dd><input type="text" size = "30" name = "education_hs">
+      <dt>College Education:
+      <dd><input type="text" size = "30" name = "education_college">
+      <dt>Graduated:
+      <dd><input type="text" size = "30" name = "graduated">
+      <dd><input type="submit" value="Share">
+    </dl>
+  </form>
 
 </div>
