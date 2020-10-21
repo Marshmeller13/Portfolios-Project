@@ -9,13 +9,13 @@ create table resume_entries (
 );
 
 
+
 drop table if exists uploaded_resumes;
 create table uploaded_resumes (
     resume blob not null
 
 
 );
-
 
 drop table if exists user;
 create table user (

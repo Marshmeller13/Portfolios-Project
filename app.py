@@ -2,6 +2,9 @@ import os
 from flask import Flask, request, g, redirect, url_for, render_template, flash, session
 from sqlite3 import dbapi2 as sqlite3
 
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
 app = Flask(__name__)
 
 
@@ -56,7 +59,7 @@ def show_resume():
     cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated FROM resume_entries')
     resume_entries = cur.fetchall()
 
-    return render_template('resume_template_orig.html', resume_entries = resume_entries)
+    return render_template('login.html', resume_entries = resume_entries)
 
 
 
@@ -139,3 +142,4 @@ def insert_resume():
     finally:
         if (db):
             db.close()
+
