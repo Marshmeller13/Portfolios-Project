@@ -1,8 +1,6 @@
-import os
+import os, re
 from flask import Flask, request, g, redirect, url_for, render_template, flash, session
 from sqlite3 import dbapi2 as sqlite3
-
-
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -143,3 +141,37 @@ def insert_resume():
         if (db):
             db.close()
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    if request.method == 'POST':
+        ##get inputs for account
+        username = request.form['username']
+        password = request.form['password']
+        confirmpass = request.form['confirmpassword']
+
+        ##set up for unique username validation
+        db = get_db()
+        user = db.execute('select * from user where username = ?', (username,)).fetchone()
+
+        ##username validation
+        if user is None:
+            ##check confirmpassword for if it matches password and password is 8 characters long
+            if confirmpass != password:
+                flash('Passwords do not match.')
+            elif len(password) < 8:
+                flash('Password must be more than 8 characters.')
+
+            ##insertion of account into database
+            else:
+                #hash password
+                hashedpass = generate_password_hash(password)
+
+                db.execute('INSERT INTO user(username,password) VALUES(?,?)', (username, hashedpass))
+                db.commit()
+
+                return render_template('login.html')
+        else:
+            flash('Username is already taken.')
+
+    return render_template('signup.html')

@@ -1,5 +1,5 @@
 <head>
-    <title>Login Page</title>
+    <title>Sign Up</title>
     <link href="static/styles_login.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -8,18 +8,18 @@
     <div class="logo-img"></div>
     <dl class="format-text">
         <dd class="login-text">
-            <h2>Login</h2>
+            <h2>Create an Account</h2>
         </dd>
 
         <!--Inputs for username and password-->
-        <form action="{{ url_for('login') }}" method="post">
+        <form action="{{ url_for('signup') }}" method="post">
             <input name="username" id="username" placeholder="Username" required>
             <input type="password" name="password" id="password" placeholder="Password" required>
-            <input type="submit" value="Log In">
+            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
+            <input type="submit" value="Create Account">
         </form>
 
-            <dd>Don't have an Account? <a href="{{ url_for('signup') }}">Sign up</a></dd>
-            <!--Will be link for if users forget their password-->
-            <dd class="forget">Forget Password?</dd>
+            <dd>Already have an Account? <a href="{{ url_for('login') }}">Log in</a></dd>
+
     </dl>
 </div>
