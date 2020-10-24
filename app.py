@@ -88,7 +88,7 @@ def login():
 
         #if statement for if username matches any users, then checks password associated with account
         if user is None:
-            error = 'Incorrect username.'
+            error = "Username doesn't exist!"
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
@@ -158,7 +158,7 @@ def signup():
         if user is None:
             ##check confirmpassword for if it matches password and password is 8 characters long
             if confirmpass != password:
-                flash('Passwords do not match.')
+                flash('Passwords do not match!')
             elif len(password) < 8:
                 flash('Password must be more than 8 characters.')
 

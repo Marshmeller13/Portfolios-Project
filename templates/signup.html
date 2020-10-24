@@ -9,12 +9,16 @@
     <dl class="format-text">
         <dd class="login-text">
             <h2>Create an Account</h2>
+            <!--Code for flashing function-->
+            {% for message in get_flashed_messages() %}
+            <div class="flashes">{{ message }}</div>
+            {% endfor %}
         </dd>
 
         <!--Inputs for username and password-->
         <form action="{{ url_for('signup') }}" method="post">
-            <input name="username" id="username" placeholder="Username" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input name="username" id="username" placeholder="Choose a Username" required>
+            <input type="password" name="password" id="password" placeholder="Create a Password" required>
             <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
             <input type="submit" value="Create Account">
         </form>

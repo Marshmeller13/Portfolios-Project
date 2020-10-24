@@ -9,6 +9,10 @@
     <dl class="format-text">
         <dd class="login-text">
             <h2>Login</h2>
+            <!--Code for flashing function-->
+            {% for message in get_flashed_messages() %}
+            <div class="flashes">{{ message }}</div>
+            {% endfor %}
         </dd>
 
         <!--Inputs for username and password-->

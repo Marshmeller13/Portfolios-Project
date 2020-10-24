@@ -91,11 +91,19 @@ Colors for logo #684EDE #CDFF42*/
 
 /*Message flash style*/
 
-.flash {
-    margin: 1em 0;
-    padding: 1em;
-    background: #cae6f6;
-    border: 1px solid #377ba8;
-
+.flashes {
+    display: inline-block;
+    width: 200px;
+    height: auto;
+    padding: 10px;
+    margin: 12px auto 15px;
+    background-color: #efa09c;
+    text-align: center;
+    font-family: Tahoma;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #e20000;
+    font-size: small;
+    vertical-align: center;
 }
 
