@@ -20,9 +20,8 @@ create table uploaded_resumes (
 drop table if exists user;
 create table user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username varchar(255) DEFAULT NULL,
-    password varchar(255) DEFAULT NULL,
-    UNIQUE (username)
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
 );
 
 /*default admin user - password:admin (password is already hashed in below code)*/
