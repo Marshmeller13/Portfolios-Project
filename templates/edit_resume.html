@@ -1,15 +1,17 @@
 <html>
 
-<head>
-    <link rel="stylesheet" type="text/css" href="static/styles_posts.css" media="screen" />
-</head>
 <!--Connects html doc to css doc-->
+
+<head>
+    <link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />
+</head>
+
 
 <body>
     <div id="myNav" class="overlay">
 
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href= "/profile_page" id="button">My Profile</a>
+        <a href= "/resumes" id="button">View Posts</a>
         <a id="button">Generate Portfolio</a>
         <a href= "/show_resume" id="button">Generate Resume</a>
         <a id="button">Upload Project</a>
@@ -22,49 +24,53 @@
         <span onclick="openNav()"><a id="button">&#9776;</a></span>
     </div>
 
-  <ul class="resume_entries">
+</body>
+
+<div>
+<ul class="resume_entries">
   {% for entry in resume_entries %}
     <li><h2>
-        <form action = "/delete_resume" method = "post">
-
-           <button  type ='submit'>Delete</button>
-             <input name ='delete' type="hidden" value = '{{ entry.id }}'>
-        </form>
-
-         {{ entry.name }}
-
+        {{ entry.name }}
         <br></h2>
         <h4>
         {{ entry.age }}
         </h4>
-
         <h4>
         {{ entry.work_exp }}
         </h4>
-
         <h4>
         {{ entry.education_hs }}
         </h4>
-
         <h4>
         {{ entry.education_college }}
         </h4>
-
         <h4>
         {{ entry.graduated }}
         </h4>
-    <a href = "{{ url_for('edit_form')}}?id={{ entry.id }}">
-            <button>Edit</button>
-        </a></li>
+    <form action = "{{ url_for('edit_resume')}}?id={{ entry.id }}" method = "POST" class = 'create_resume'>
+        <dl>
+          <dt>Name:
+          <dd><input type="text" size="30" name="name">
+          <dt>Age:
+          <dd><input type="text" size = "30" name = "age">
+          <dt>Work Experience:
+          <dd><input type="text" size = "30" name = "work_exp">
+          <dt>High School Education:
+          <dd><input type="text" size = "30" name = "education_hs">
+          <dt>College Education:
+          <dd><input type="text" size = "30" name = "education_college">
+          <dt>Graduated:
+          <dd><input type="text" size = "30" name = "graduated">
+                <input type = 'hidden' name = 'id' value = "{{ entry.id }}"
+          <dd><input type="submit" value="Submit">
+
+    </dl>
+  </form>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
   </ul>
-
-
-
-
-</body>
+</div>
 
 <script>
     function openNav() {
@@ -75,5 +81,6 @@
         document.getElementById("myNav").style.width = "0%";
     }
 </script>
+
 
 </html>
