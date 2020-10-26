@@ -1,5 +1,6 @@
 drop table if exists resume_entries;
 create table resume_entries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name text not null,
     age text not null,
     work_exp text not null,
@@ -12,6 +13,7 @@ create table resume_entries (
 
 drop table if exists uploaded_resumes;
 create table uploaded_resumes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     resume blob not null
 
 
@@ -20,9 +22,8 @@ create table uploaded_resumes (
 drop table if exists user;
 create table user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username varchar(255) DEFAULT NULL,
-    password varchar(255) DEFAULT NULL,
-    UNIQUE (username)
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
 );
 
 /*default admin user - password:admin (password is already hashed in below code)*/

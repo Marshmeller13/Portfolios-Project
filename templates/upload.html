@@ -1,14 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+<!--Connects html doc to css doc-->
+
 <head>
-    <meta charset="UTF-8">
-    <title>Upload A Resume</title>
+    <link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />
 </head>
+
+
 <body>
+    <div id="myNav" class="overlay">
+
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href= "/profile_page" id="button">My Profile</a>
+        <a href= "/resumes" id="button">View Posts</a>
+        <a id="button">Generate Portfolio</a>
+        <a href= "/show_resume" id="button">Generate Resume</a>
+        <a id="button">Upload Project</a>
+        <a id="button">Share</a>
+        <a id="button">Profile Settings</a>
+    </div>
+
+    <div class="navbar">
+        <span onclick="openNav()"><a id="button">&#9776;</a></span>
+    </div>
+
+</body>
+
+<div>
   <form action = "/insert_resume" method = "POST"
      enctype = "multipart/form-data">
      <input type = "file" name = "file" id = 'file' />
      <input type = "submit"/>
   </form>
-</body>
+</div>
+
+
+
+<script>
+    function openNav() {
+        document.getElementById("myNav").style.width = "100%";
+    }
+
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+    }
+</script>
+
 </html>

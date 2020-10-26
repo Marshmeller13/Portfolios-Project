@@ -9,6 +9,10 @@
     <dl class="format-text">
         <dd class="login-text">
             <h2>Login</h2>
+            <!--Code for flashing function-->
+            {% for message in get_flashed_messages() %}
+            <div class="flashes">{{ message }}</div>
+            {% endfor %}
         </dd>
 
         <!--Inputs for username and password-->
@@ -18,6 +22,7 @@
             <input type="submit" value="Log In">
         </form>
 
+            <dd>Don't have an Account? <a href="{{ url_for('signup') }}">Sign up</a></dd>
             <!--Will be link for if users forget their password-->
             <dd class="forget">Forget Password?</dd>
     </dl>

@@ -1,8 +1,6 @@
-import os
-from flask import Flask, request, g, redirect, url_for, render_template, flash, session
+import os, re
+from flask import Flask, request, g, redirect, url_for, render_template, flash, session, make_response
 from sqlite3 import dbapi2 as sqlite3
-
-
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -56,10 +54,10 @@ def close_db(error):
 @app.route('/show_resume')
 def show_resume():
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated FROM resume_entries')
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries')
     resume_entries = cur.fetchall()
 
-    return render_template('login.html', resume_entries = resume_entries)
+    return render_template('resume_template_orig.html', resume_entries = resume_entries)
 
 
 
@@ -90,7 +88,7 @@ def login():
 
         #if statement for if username matches any users, then checks password associated with account
         if user is None:
-            error = 'Incorrect username.'
+            error = "Username doesn't exist!"
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
@@ -143,3 +141,90 @@ def insert_resume():
         if (db):
             db.close()
 
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    if request.method == 'POST':
+        ##get inputs for account
+        username = request.form['username']
+        password = request.form['password']
+        confirmpass = request.form['confirmpassword']
+
+        ##set up for unique username validation
+        db = get_db()
+        user = db.execute('select * from user where username = ?', (username,)).fetchone()
+
+        ##username validation
+        if user is None:
+            ##check confirmpassword for if it matches password and password is 8 characters long
+            if confirmpass != password:
+                flash('Passwords do not match!')
+            elif len(password) < 8:
+                flash('Password must be more than 8 characters.')
+
+            ##insertion of account into database
+            else:
+                #hash password
+                hashedpass = generate_password_hash(password)
+
+                db.execute('INSERT INTO user(username,password) VALUES(?,?)', (username, hashedpass))
+                db.commit()
+
+                return render_template('login.html')
+        else:
+            flash('Username is already taken.')
+
+    return render_template('signup.html')
+  
+  
+@app.route('/delete_resume', methods=['POST'])
+def delete_resume():
+    db = get_db()
+    db.execute('delete from resume_entries where id = ?',
+               [request.form['delete']])
+    db.commit()
+
+    flash('Resume was successfully deleted!')
+    return redirect(url_for('display_resumes'))
+
+@app.route('/profile_page')
+def show_profile():
+    return render_template('profile_page.html')
+
+@app.route('/resumes')
+def display_resumes():
+    db = get_db()
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries')
+    resume_entries = cur.fetchall()
+    return render_template('posts_page.html', resume_entries=resume_entries)
+
+@app.route('/edit_resume', methods=['POST'])
+def edit_resume():
+    db = get_db()
+    db.execute("UPDATE resume_entries SET name=?, age=?, work_exp=?, education_hs=?, education_college=?, graduated=? WHERE id=?",
+               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['id']])
+    db.commit()
+    flash('Entry was Successfully Edited')
+    return redirect(url_for('display_resumes'))
+
+
+@app.route('/edit_page', methods=['GET', 'POST'])
+def edit_form():
+    db = get_db()
+
+    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries WHERE id=?',
+                         [request.args['id']])
+    resume_entries = current.fetchall()
+
+    return render_template('edit_resume.html', resume_entries=resume_entries)
+
+
+
+def get_blob(id):
+    db = get_db()
+    cur = db.execute('SELECT resume, id FROM uploaded_resumes WHERE id=?',
+                     [request.args['id']])
+    uploaded_resumes = cur.fetchall()
+
+    return uploaded_resumes
