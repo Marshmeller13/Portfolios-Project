@@ -1,5 +1,6 @@
 drop table if exists resume_entries;
 create table resume_entries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name text not null,
     age text not null,
     work_exp text not null,
@@ -12,6 +13,7 @@ create table resume_entries (
 
 drop table if exists uploaded_resumes;
 create table uploaded_resumes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     resume blob not null
 
 
