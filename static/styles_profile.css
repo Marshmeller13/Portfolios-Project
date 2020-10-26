@@ -93,3 +93,14 @@ body {
 .overlay a:focus {
     color: #f1f1f1;
 }
+
+/*Share Button Formatting*/
+
+.share-buttons img {
+width: 35px;
+height: 50px;
+margin-top: -20px;
+background-color: white;
+padding: 5px;
+display: inline;
+}
