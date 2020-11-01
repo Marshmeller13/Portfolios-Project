@@ -88,12 +88,13 @@ def login():
 
         #if statement for if username matches any users, then checks password associated with account
         if user is None:
-            error = "Username doesn't exist!"
+            error = 'Username does not exist!'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
         #if no errors encountered, redirect to homepage/dashboard (with framework for setting up a session id within cookies of browser)
         if error is None:
+            flash('Logged in')
             #session.clear()
             #session['user_id'] = user['id']
             return render_template('resume_template_orig.html')
@@ -171,6 +172,7 @@ def signup():
                 db.execute('INSERT INTO user(username,password) VALUES(?,?)', (username, hashedpass))
                 db.commit()
 
+                flash('Account Created!')
                 return render_template('login.html')
         else:
             flash('Username is already taken.')
