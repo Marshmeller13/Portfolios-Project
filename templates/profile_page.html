@@ -1,60 +1,34 @@
 <html>
-<!--Connects html doc to css doc-->
+<!--Connects html doc to layout doc-->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
 
 <head>
     <link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />
 </head>
 
-
 <body>
-    <div id="myNav" class="overlay">
-
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href= "/resumes" id="button">View Posts</a>
-        <a id="button">Generate Portfolio</a>
-        <a href= "/show_resume" id="button">Generate Resume</a>
-        <a id="button">Upload Project</a>
-        <a href= "/upload" id="button">Upload Resume</a>
-        <a id="button">Profile Settings</a>
-    </div>
-
-    <div class="navbar">
-        <span onclick="openNav()"><a id="button">&#9776;</a></span>
-    </div>
-
-
-</body>
-
 <!--Used for reference https://simplesharebuttons.com/html-share-buttons/-->
 
     <div class="share-buttons" >
 
     <!-- Email -->
-    <form><a class="button1"><a href="mailto:?&amp;Body=My name is ____. You can view my portfolio here http://127.0.0.1:5000/">
-        <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
-    </a><form>
+        <div><a href="mailto:?&amp;Body=My name is ____. You can view my portfolio here http://127.0.0.1:5000/">
+        <img src="static/email.png" alt="email logo"/>
+        </a></div>
 
         <!-- LinkedIn (Not real domain as profile_page.html is not a valid URL) -->
-    <form><a href="http://www.linkedin.com/shareArticle?&amp;url=https://php.iwu.edu/directory/employees.php?netid=mliffito">
-        <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn"/>
-    </a></form>
+        <div><a href="http://www.linkedin.com/shareArticle?&amp;url=https://php.iwu.edu/directory/employees.php?netid=mliffito">
+        <img src="static/linkedin.png" alt="email logo"/>
+        </a></div>
 
         <!-- Google+ (Not real domain as profile_page.html is not a valid URL) -->
-    <form><a href="https://plus.google.com/share?url=https://php.iwu.edu/directory/employees.php?netid=mliffito" target="_blank">
-        <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
-    </a></form>
+        <div><a href="https://plus.google.com/share?url=https://php.iwu.edu/directory/employees.php?netid=mliffito" target="_blank">
+        <img src="static/google.png" alt="email logo"/>
+        </a></div>
 
-</div>
-
-
-<script>
-    function openNav() {
-        document.getElementById("myNav").style.width = "100%";
-    }
-
-    function closeNav() {
-        document.getElementById("myNav").style.width = "0%";
-    }
-</script>
-
+{% endblock %}
+    </div>
+</body>
 </html>

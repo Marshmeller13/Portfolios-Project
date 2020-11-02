@@ -51,6 +51,13 @@ def close_db(error):
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
+
+"Makes /login default page for site"
+@app.route('/')
+def home():
+    return redirect(url_for('login'))
+
+
 @app.route('/show_resume')
 def show_resume():
     db = get_db()
@@ -58,7 +65,6 @@ def show_resume():
     resume_entries = cur.fetchall()
 
     return render_template('resume_template_orig.html', resume_entries = resume_entries)
-
 
 
 @app.route('/create_resume', methods=['POST'])
@@ -119,6 +125,7 @@ def convertToBinaryData(file):
 
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+
 
 @app.route('/insert_resume', methods=['GET', 'POST'])
 def insert_resume():
@@ -190,9 +197,12 @@ def delete_resume():
     flash('Resume was successfully deleted!')
     return redirect(url_for('display_resumes'))
 
+
+"redirects user to profile page"
 @app.route('/profile_page')
 def show_profile():
     return render_template('profile_page.html')
+
 
 @app.route('/resumes')
 def display_resumes():
@@ -200,6 +210,7 @@ def display_resumes():
     cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries')
     resume_entries = cur.fetchall()
     return render_template('posts_page.html', resume_entries=resume_entries)
+
 
 @app.route('/edit_resume', methods=['POST'])
 def edit_resume():
@@ -220,7 +231,6 @@ def edit_form():
     resume_entries = current.fetchall()
 
     return render_template('edit_resume.html', resume_entries=resume_entries)
-
 
 
 def get_blob(id):
