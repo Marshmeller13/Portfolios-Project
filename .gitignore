@@ -1,6 +1,7 @@
 venv/
 __pycache__/
-flaskr_plus.db
+.idea/
+flaskr.db
 
 
 # Created by https://www.gitignore.io/api/pycharm
