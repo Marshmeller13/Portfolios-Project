@@ -27,20 +27,39 @@
         <h4>
         {{ entry.graduated }}
         </h4>
+
+        <h4>
+        {{ entry.skills }}
+        </h4>
+
+        <h4>
+        {{ entry.awards }}
+        </h4>
+
+        <h4>
+        {{ entry.contact }}
+        </h4>
     <form action = "{{ url_for('edit_resume')}}?id={{ entry.id }}" method = "POST" class = 'create_resume'>
         <dl>
-          <dt>Name:
-          <dd><input type="text" size="30" name="name">
-          <dt>Age:
-          <dd><input type="text" size = "30" name = "age">
-          <dt>Work Experience:
-          <dd><input type="text" size = "30" name = "work_exp">
-          <dt>High School Education:
-          <dd><input type="text" size = "30" name = "education_hs">
-          <dt>College Education:
-          <dd><input type="text" size = "30" name = "education_college">
-          <dt>Graduated:
-          <dd><input type="text" size = "30" name = "graduated">
+      <dt>Name:
+      <dd><input type="text" size="30" name="name">
+      <dt>Age:
+      <dd><input type="text" size = "30" name = "age">
+      <dt>Work Experience:
+      <dd><input type="text" size = "30" name = "work_exp">
+      <dt>High School Education:
+      <dd><input type="text" size = "30" name = "education_hs">
+      <dt>College Education:
+      <dd><input type="text" size = "30" name = "education_college">
+      <dt>Graduated:
+      <dd><input type="text" size = "30" name = "graduated">
+
+      <dt>Skills:
+      <dd><input type="text" size = "30" name = "skills">
+      <dt>Awards or Special Recognitions:
+      <dd><input type="text" size = "30" name = "awards">
+      <dt>Contact Info:
+      <dd><input type="text" size = "30" name = "contact">
                 <input type = 'hidden' name = 'id' value = "{{ entry.id }}"
           <dd><input type="submit" value="Submit">
 

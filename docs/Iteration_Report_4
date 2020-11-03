@@ -1,0 +1,146 @@
+# Iteration 4 Report
+
+For week three, we focused on making profiles shareable, adding the ability to post, display, and delete resumes, and on adding account creation 
+
+
+## Tasks Responsible For 
+
+### Cameron
+ 
+ > ### Layout and Bug fixes (Changed from Iteration 3's plan per Professor Liffitons recommendation)
+
+ 1. Create layout.html and styles_layout.css and implement them throughout the site
+ 2. Fix issue with share buttons being linked from another domain
+ 3. Fix site routing so that /login is the home page of the site
+ 4. Add comments to any of my code that did not already have comments
+
+### Blake
+
+ > ### Unit Tests
+
+ 1. Create unit tests for code
+ 2. Make sure code is able to pass unit tests and is written effectively 
+
+### Noah 
+
+ > ### Display resumes
+
+ 1. Display uploaded resumes
+ 2. Display resumes based on user - User creation wasn't done last week so couldn't connect to specific users
+ 3. Upgrade resume creation template, design
+
+
+## Tasks Completed
+
+### Cameron 
+
+ 1. Create layout.html and styles_layout.css and implement them throughout the site (The exceptions being the login and create account pages.)
+ 2. Fix issue with share buttons being linked from another domain
+ 3. Fix site routing so that /login is the home page of the site
+ 4. Add comments to any of my code that did not already have comments
+
+### Blake
+
+ 1. Basic User Testing (that checks for flashed messages) works for making an account
+ 2. Basic User Testing for logging in
+
+### Noah 
+
+ 1. Changed up some routes from before to clear up any ambiguity with locations
+ 2. Updated the resume schema and added more info the the resume
+ 3. Linked resumes to users
+ 4. Added route for displaying uploaded resume
+
+## Tasks Planned but not Finished
+
+### Cameron 
+
+ - All tasks completed
+
+### Blake
+
+ - More complicated versions of unit tests 
+
+### Noah 
+
+ - All tasks completed
+
+## Troubles Encountered 
+
+### Cameron 
+
+ - No major issues encountered
+
+### Blake
+
+ - No troubles, just need to find a way to test the more complicated items
+
+### Noah 
+
+ - No major issues encountered
+
+## Adjustments to overall design 
+
+### Cameron 
+
+ - Implemented a layout page that can be extended to other aspects of the site instead of having individual files with repeated information 
+
+### Blake
+
+ - Added a testing directory with the testing file in it
+
+### Noah 
+
+ - Changed up some routes from before to clear up any ambiguity with locations
+
+## One important thing learned
+
+### Cameron 
+
+ - I learned how useful it is to have a layout page for designing a site. It makes making changes much easier as you only need to edit one file as opposed to editing every file and it also makes the rest of the projects code more concise as there is no code that is being repeated.
+
+### Blake
+
+ -  I learned about the importance of unit testing and why unit tests should be effectively applied when creating projects
+
+### Noah 
+
+ - I learned how to properly create a resume schema
+
+
+## Iteration 4 Plan for Week 5
+
+### Cameron
+
+ - Create design for Profile Page
+ - Add section for users personal information on Profile Page
+ - Add section for users portfolios and code to be displayed
+
+### Blake
+
+ - Figure out more complex testing methods
+ - Expand Unit Testing on application
+
+### Noah 
+
+ - Display uploaded resumes
+ - Clear up resume linking to users
+ - Further upgrade resume creation, store values in multiple tables for ease
+
+## Iteration 4 Plan for Week 6
+
+### Cameron
+
+ - Make code runnable from profile page or code links to another site that code can be ran from
+ - Finish any issues that may have occured with profile page
+
+### Blake
+
+ - Adding ability to message other users
+ - Creating design for messaging system
+
+### Noah 
+
+ - Finalize resume creation
+ - Organize and sort resumes or portfolios hosted by users
+ -  Go back over code from previous two iterations, simplify and clear up ambiguity

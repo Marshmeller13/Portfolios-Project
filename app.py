@@ -58,10 +58,10 @@ def home():
     return redirect(url_for('login'))
 
 
-@app.route('/show_resume')
+@app.route('/show_template')
 def show_resume():
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries')
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries')
     resume_entries = cur.fetchall()
 
     return render_template('resume_template_orig.html', resume_entries = resume_entries)
@@ -70,11 +70,11 @@ def show_resume():
 @app.route('/create_resume', methods=['POST'])
 def create_resume():
     db = get_db()
-    db.execute('insert into resume_entries (name, age, work_exp, education_hs, education_college, graduated) values (?,?,?,?,?,?)',
-               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated']])
+    db.execute('insert into resume_entries (name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact) values (?,?,?,?,?,?,?,?,?)',
+               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['skills'], request.form['awards'], request.form['contact']])
     db.commit()
     flash('Resume Successfully Created')
-    return redirect(url_for('show_resume'))
+    return redirect(url_for('display_resumes'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -100,9 +100,9 @@ def login():
 
         #if no errors encountered, redirect to homepage/dashboard (with framework for setting up a session id within cookies of browser)
         if error is None:
-            flash('Logged in')
-            #session.clear()
-            #session['user_id'] = user['id']
+            session.clear()
+            session['user_id'] = user['id']
+
             return render_template('resume_template_orig.html')
 
         #flash error encountered (if any)
@@ -206,17 +206,21 @@ def show_profile():
 
 @app.route('/resumes')
 def display_resumes():
+
+
+
+    user_id = session['user_id']
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries')
-    resume_entries = cur.fetchall()
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries')#  WHERE refid=?, [request.args['user_id']
+    resume_entries = cur.fetchall()                                                                                                            #^ add above when cookies are implemented and posts will only display those made by the user logged in
     return render_template('posts_page.html', resume_entries=resume_entries)
 
 
 @app.route('/edit_resume', methods=['POST'])
 def edit_resume():
     db = get_db()
-    db.execute("UPDATE resume_entries SET name=?, age=?, work_exp=?, education_hs=?, education_college=?, graduated=? WHERE id=?",
-               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['id']])
+    db.execute("UPDATE resume_entries SET name=?, age=?, work_exp=?, education_hs=?, education_college=?, graduated=?, skills=?, awards=?, contact=? WHERE id=?",
+               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['skills'], request.form['awards'], request.form['contact'], request.form['id']])
     db.commit()
     flash('Entry was Successfully Edited')
     return redirect(url_for('display_resumes'))
@@ -226,7 +230,7 @@ def edit_resume():
 def edit_form():
     db = get_db()
 
-    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, id FROM resume_entries WHERE id=?',
+    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries WHERE id=?',
                          [request.args['id']])
     resume_entries = current.fetchall()
 

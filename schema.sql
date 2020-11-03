@@ -1,12 +1,16 @@
 drop table if exists resume_entries;
 create table resume_entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    refid INTEGER REFERENCES user(id),
     name text not null,
     age text not null,
     work_exp text not null,
     education_hs text not null,
     education_college text not null,
-    graduated text not null
+    graduated text not null,
+    skills text not null,
+    awards text not null,
+    contact text not null
 );
 
 
