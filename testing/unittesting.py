@@ -2,7 +2,7 @@ import os
 import app
 import unittest
 import tempfile
-from flask import url_for, request
+from flask import Flask
 
 # code below referenced from Flask Documentation on Unit Testing:
 # https://flask.palletsprojects.com/en/0.12.x/testing/
@@ -20,6 +20,8 @@ class FlaskrTestCase(unittest.TestCase):
         os.close(self.db_fd)
         os.unlink(app.app.config['DATABASE'])
 
+
+
     #Account creation
     def new_account(self, username, password, confirmpassword):
         return self.app.post('/signup', data=dict(
@@ -31,7 +33,9 @@ class FlaskrTestCase(unittest.TestCase):
     def test_account_creation(self):
         #new account with no issues
         rv = self.new_account('testaccount','testpassword','testpassword')
+        configure_routes
         assert b'Account Created!' in rv.data
+
 
     def test_username_already_taken(self):
         #username already taken
@@ -48,6 +52,8 @@ class FlaskrTestCase(unittest.TestCase):
         rv = self.new_account('testaccount3', 'word', 'word')
         assert b'Password must be more than 8 characters.' in rv.data
 
+
+
     #Log In (with a test accounts and the admin account)
     def login(self,username,password):
         return self.app.post('/login', data=dict(
@@ -56,7 +62,11 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
 
     #since nothing flashes when logging in we have to find a different method for testing a successful login
-    #def test_login(self):
+    def test_login(self):
+        rv = self.login('admin', 'admin')
+        assert b'Username does not exist!' not in rv.data
+        assert b'Incorrect password.' not in rv.data
+        assert b'Create Resume' in rv.data
 
     def test_no_user_found(self):
         rv = self.login('testaccount4','password')
@@ -65,6 +75,33 @@ class FlaskrTestCase(unittest.TestCase):
     def test_incorrect_password(self):
         rv = self.login('admin','password')
         assert b'Incorrect password.' in rv.data
+
+
+
+    #Creating Resume
+    def createresume(self, name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact):
+        rv = self.app.post('/create_resume', data=dict(
+            name=name,
+            age=age,
+            work_exp=work_exp,
+            education_hs=education_hs,
+            education_college=education_college,
+            graduated=graduated,
+            skills=skills,
+            awards=awards,
+            contact=contact
+        ), follow_redirects=True)
+
+    #need to find a way to actually check a database
+    def test_resume_creation(self):
+        self.login('admin', 'admin')
+        self.createresume('Test Name', '19', '23 years', "HS C/o '19", "IWU C/o '23", '2023', 'All of them', 'Too Many', '302-555-1234, email@email.com')
+        with app.app.app_context():
+            db = app.get_db()
+        assert b'Banana' in db
+        #assert b'Test Name'
+
+
 
 
 
