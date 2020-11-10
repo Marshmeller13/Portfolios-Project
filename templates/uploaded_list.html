@@ -1,0 +1,44 @@
+<html>
+
+<!--Connects html doc to layout doc-->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="static/styles_posts.css" media="screen" />
+</head>
+
+
+<body>
+
+  <ul class="uploaded_resumes">
+  {% for entry in uploaded_resumes %}
+    <li><h2>
+        <form action = "/delete_uploaded" method = "post">
+
+           <button  type ='submit'>Delete</button>
+             <input name ='delete' type="hidden" value = '{{ entry.id }}'>
+        </form>
+
+         {{ entry.position }}
+
+        <br></h2>
+        <h4>
+        {{ entry.id }}
+
+    <a href = "{{ url_for('display_uploaded')}}?id={{ entry.id }}">
+            <button>Display</button>
+        </a></li>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em></li>
+  {% endfor %}
+  </ul>
+
+
+
+{% endblock %}
+</body>
+
+</html>
+

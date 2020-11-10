@@ -131,17 +131,17 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 def insert_resume():
     try:
         db = get_db()
-        sqlite_insert_blob_query = """ INSERT INTO uploaded_resumes
-                                  (resume) VALUES (?)"""
+        sqlite_insert_blob_query = """ INSERT INTO uploaded_resumes(resume, position) VALUES (?, ?)"""
         resume = request.files['file']
         resume = convertToBinaryData(resume)
+        position = request.form['position']
         # Convert data into tuple format
-        data_tuple = (resume,)
+        data_tuple = (resume, position)
         db.execute(sqlite_insert_blob_query, data_tuple)
         db.commit()
         print("Image and file inserted successfully as a BLOB into a table")
         db.close()
-        return render_template('resume_template_orig.html')
+        return render_template('profile_page.html')
 
     except sqlite3.Error as error:
         print("Failed to insert blob data into sqlite table", error)
@@ -237,10 +237,47 @@ def edit_form():
     return render_template('edit_resume.html', resume_entries=resume_entries)
 
 
-def get_blob(id):
+@app.route('/get_blob', methods=['GET'])
+def get_blob():
     db = get_db()
-    cur = db.execute('SELECT resume, id FROM uploaded_resumes WHERE id=?',
+    cur = db.execute('SELECT resume, position,id FROM uploaded_resumes WHERE id=?',
                      [request.args['id']])
     uploaded_resumes = cur.fetchall()
 
     return uploaded_resumes
+
+
+@app.route('/make_pdf')
+def make_pdf(id):
+    if id is not None:
+        pdf_res = get_blob(id)
+        response = make_response(pdf_res)
+        response.headers['Content-Type'] = 'application/pdf'
+
+        return response
+
+
+@app.route('/display_uploaded')
+def display_uploaded():
+    return render_template('display_uploaded.html', id=id)
+
+
+@app.route('/uploaded_list')
+def uploaded_list():
+
+
+    user_id = session['user_id']
+    db = get_db()
+    cur = db.execute('SELECT position, id FROM uploaded_resumes')#  WHERE refid=?, [request.args['user_id']
+    uploaded_resumes = cur.fetchall()                                                                                                            #^ add above when cookies are implemented and posts will only display those made by the user logged in
+    return render_template('uploaded_list.html', uploaded_resumes=uploaded_resumes)
+
+@app.route('/delete_uploaded', methods=['POST'])
+def delete_uploaded():
+    db = get_db()
+    db.execute('delete from uploaded_resumes where id = ?',
+               [request.form['delete']])
+    db.commit()
+
+    flash('Resume was successfully deleted!')
+    return redirect(url_for('uploaded_list'))

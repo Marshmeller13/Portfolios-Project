@@ -18,6 +18,7 @@ create table resume_entries (
 drop table if exists uploaded_resumes;
 create table uploaded_resumes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    position text not null,
     resume blob not null
 
 
