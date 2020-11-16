@@ -60,14 +60,6 @@ dl.format-text input[type="submit"]:hover {
 }
 
 
-/*Formats 'Forget Password'*/
-
-dd.forget {
-    color: blue;
-    text-decoration: underline;
-}
-
-
 /*Adds space under 'Login' for cleaner design*/
 
 dd.login-text {

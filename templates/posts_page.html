@@ -6,33 +6,36 @@
     {{ super() }}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="static/styles_posts.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="static/styles_edit.css" media="screen" />
 </head>
 
 
 <body>
-
-  <ul class="resume_entries">
+<div class = "page">
+<ul class="list-unstyled">
+    <li class="display-4 text-center">View Portfolios</li></ul><br><br>
+  <ul class="resume_entries" class="list-group-flush">
   {% for entry in resume_entries %}
-    <li><h2>
-        <form action = "/delete_resume" method = "post">
+    <ul class="list-unstyled">
+    <li class="text-center"><h2>
 
-           <button  type ='submit'>Delete</button>
-             <input name ='delete' type="hidden" value = '{{ entry.id }}'>
-        </form>
 
-         {{ entry.name }}
 
-        <br></h2>
-        <h4>
-        {{ entry.age }}
-        </h4>
 
+         {{ entry.name }}  {{ entry.age }}
+
+
+        <br></h2></li></ul>
+
+
+        <li class="list-group-item">
         <h4>
         {{ entry.work_exp }}
-        </h4>
+        </h4></li>
 
+     <li class="list-group-item">
         <h4>
+
         {{ entry.education_hs }}
         </h4>
 
@@ -42,28 +45,40 @@
 
         <h4>
         {{ entry.graduated }}
-        </h4>
+        </h4></li>
 
+      <li class="list-group-item">
         <h4>
         {{ entry.skills }}
-        </h4>
+        </h4></li>
 
+      <li class="list-group-item">
         <h4>
         {{ entry.awards }}
-        </h4>
+        </h4></li>
 
+      <li class="list-group-item">
         <h4>
         {{ entry.contact }}
-        </h4>
-    <a href = "{{ url_for('edit_form')}}?id={{ entry.id }}">
-            <button>Edit</button>
-        </a></li>
+        </h4></li>
+<br>
+
+        <a href = "{{ url_for('edit_form')}}?id={{ entry.id }}">
+            <button class="btn btn-primary">Edit</button></a>
+
+                        <form action = "/delete_resume" method = "post" style="display: inline;">
+    <input name ='delete' type="hidden" value = '{{ entry.id }}'>
+        <button  type ='submit' class="btn btn-danger">Delete</button>
+</form>
+      <br><br>
+
+        </li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
   </ul>
 
-
+</div>
 
 {% endblock %}
 </body>
