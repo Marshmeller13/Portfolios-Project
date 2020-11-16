@@ -203,6 +203,18 @@ def delete_resume():
 def show_profile():
     return render_template('profile_page.html')
 
+@app.route('/profile_page_red')
+def show_profile_red():
+    return render_template('profile_page_red.html')
+
+@app.route('/profile_page_green')
+def show_profile_green():
+    return render_template('profile_page_green.html')
+
+@app.route('/profile_page_teal')
+def show_profile_teal():
+    return render_template('profile_page_teal.html')
+
 
 @app.route('/resumes')
 def display_resumes():

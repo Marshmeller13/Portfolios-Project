@@ -1,9 +1,7 @@
-/*Sets background for profile page*/
 body {
-    background: linear-gradient(110deg, #3366CC 30%, yellow);
+    background: linear-gradient(110deg, #17A2B8 30%, #ffffff);
     padding-top: 20vh;
 }
-
 
 /*Share Button Formatting*/
 
@@ -152,30 +150,23 @@ h2 {
 }
 
 .tm-title {
-	color: #66CCFF;
+	color: #28A745;
 }
 
 .white {
   color: #fff;
 }
 
-/*Size for about and language section*/
 .about, .languages {
-
   padding: 40px;
   min-height: 360px;
 
 }
 
-/*Size for about and language section*/
 .experience, .contact {
-
   padding: 40px;
   min-height: 360px;
-
 }
-
-
 
 
 /* header section */
@@ -194,27 +185,34 @@ header h2 {
 }
 
 
+
 /* about section */
 .about {
-  background: #fff;
+  background: #000000;
+    color: white;
   box-shadow: 0px 1px 5px rgba(50,50,50,0.08);
-
-    display: inline-block;
 }
 
 /* languages section */
 .languages {
-  background: #3366CC;
-  color: #f5f5f5;
+  background: #17A2B8;
  box-shadow: 0px 1px 5px rgba(50,50,50,0.08);
 }
 
 
 
+.languages ul {
+  padding: 10px;
+}
+
+.languages ul li {
+  padding-bottom: 6px;
+}
+
 /* experience section */
 .experience {
-  background: #3366CC;
-  color: #f5f5f5;
+  background: #17A2B8;
+
 }
 
 .experience .experience-content {
@@ -230,7 +228,8 @@ header h2 {
 
 /* contact section */
 .contact {
-  background: #fff;
+  background: #000000;
+    color: white;
  box-shadow: 0px 1px 5px rgba(50,50,50,0.08);
 }
 
