@@ -67,9 +67,11 @@
 
                     <!--Where resume will go for resume preview (Has placeholder currently waiting for Noahs resume display feature to be completed)-->
                     <div id="prev" class="prevOverlay">
-        <a href="javascript:void(0)" class="closebtn" onclick="closePrev()">&times;</a>
-        <img src="static/empty_profilepic.png"/>
-    </div>
+                        <a href="javascript:void(0)" class="closebtn" onclick="closePrev()">&times;</a>
+                        {% for entry in uploaded_resumes %}
+                        <a href = "{{ url_for('make_pdf', id = entry.id)}}">
+                        {% endfor %}
+                    </div>
 <!--Resume preview button-->
     <div class="prev">
         <span  onclick="openPrev()" class="btn btn-primary"><a id="button">Preview Resume</a></span>

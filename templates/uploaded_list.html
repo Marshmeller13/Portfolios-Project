@@ -27,7 +27,7 @@
         <h4>
         {{ entry.id }}
 
-    <a href = "{{ url_for('display_uploaded')}}?id={{ entry.id }}">
+    <a href = "{{ url_for('make_pdf', id = entry.id)}}">
             <button>Display</button>
         </a></li>
   {% else %}

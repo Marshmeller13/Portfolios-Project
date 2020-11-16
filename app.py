@@ -6,6 +6,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
 
 
+app.config['SECRET_KEY'] = os.urandom(12).hex()
+
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
     DEBUG=True,
@@ -70,8 +72,9 @@ def show_resume():
 @app.route('/create_resume', methods=['POST'])
 def create_resume():
     db = get_db()
-    db.execute('insert into resume_entries (name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact) values (?,?,?,?,?,?,?,?,?)',
-               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['skills'], request.form['awards'], request.form['contact']])
+    user_id = session['user_id']
+    db.execute('insert into resume_entries (name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, refid) values (?,?,?,?,?,?,?,?,?,?)',
+               [request.form['name'], request.form['age'], request.form['work_exp'], request.form['education_hs'], request.form['education_college'], request.form['graduated'], request.form['skills'], request.form['awards'], request.form['contact'], int(user_id,)])
     db.commit()
     flash('Resume Successfully Created')
     return redirect(url_for('display_resumes'))
@@ -85,13 +88,14 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
+
         #set error to none to be changed if program encounters an error
         error = None
 
         #query database for username
         db = get_db()
         user = db.execute('select * from user where username = ?', (username,)).fetchone()
-
+        use_id = user['id']
         #if statement for if username matches any users, then checks password associated with account
         if user is None:
             error = 'Username does not exist!'
@@ -101,7 +105,8 @@ def login():
         #if no errors encountered, redirect to homepage/dashboard (with framework for setting up a session id within cookies of browser)
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = use_id
+
 
             return render_template('resume_template_orig.html')
 
@@ -131,12 +136,13 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 def insert_resume():
     try:
         db = get_db()
-        sqlite_insert_blob_query = """ INSERT INTO uploaded_resumes(resume, position) VALUES (?, ?)"""
+        sqlite_insert_blob_query = """ INSERT INTO uploaded_resumes(resume, position, user_id) VALUES (?, ?, ?)"""
         resume = request.files['file']
         resume = convertToBinaryData(resume)
         position = request.form['position']
+        user_id = session['user_id']
         # Convert data into tuple format
-        data_tuple = (resume, position)
+        data_tuple = (resume, position, int(user_id,))
         db.execute(sqlite_insert_blob_query, data_tuple)
         db.commit()
         print("Image and file inserted successfully as a BLOB into a table")
@@ -219,11 +225,9 @@ def show_profile_teal():
 @app.route('/resumes')
 def display_resumes():
 
-
-
     user_id = session['user_id']
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries')#  WHERE refid=?, [request.args['user_id']
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries WHERE refid=?', (user_id,))
     resume_entries = cur.fetchall()                                                                                                            #^ add above when cookies are implemented and posts will only display those made by the user logged in
     return render_template('posts_page.html', resume_entries=resume_entries)
 
@@ -250,27 +254,30 @@ def edit_form():
 
 
 @app.route('/get_blob', methods=['GET'])
-def get_blob():
+def get_blob(id):
     db = get_db()
-    cur = db.execute('SELECT resume, position,id FROM uploaded_resumes WHERE id=?',
-                     [request.args['id']])
-    uploaded_resumes = cur.fetchall()
+    user_id = session['user_id']
+    cur = db.execute('SELECT resume FROM uploaded_resumes WHERE user_id=?', (user_id,))
+    uploaded_resumes = cur.fetchone()
+    up_resume = uploaded_resumes['resume']
 
-    return uploaded_resumes
+    return up_resume
 
 
-@app.route('/make_pdf')
-def make_pdf(id):
+@app.route('/docs/<id>')
+def make_pdf(id=None):
     if id is not None:
         pdf_res = get_blob(id)
         response = make_response(pdf_res)
         response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'pdf_upload'
 
         return response
 
 
-@app.route('/display_uploaded')
-def display_uploaded():
+@app.route('/<id>')
+def display_uploaded(id=None):
+
     return render_template('display_uploaded.html', id=id)
 
 
@@ -278,10 +285,10 @@ def display_uploaded():
 def uploaded_list():
 
 
-    user_id = session['user_id']
+    user_id = int(session['user_id'])
     db = get_db()
-    cur = db.execute('SELECT position, id FROM uploaded_resumes')#  WHERE refid=?, [request.args['user_id']
-    uploaded_resumes = cur.fetchall()                                                                                                            #^ add above when cookies are implemented and posts will only display those made by the user logged in
+    cur = db.execute('SELECT position, id FROM uploaded_resumes WHERE user_id=?', (user_id,))
+    uploaded_resumes = cur.fetchall()
     return render_template('uploaded_list.html', uploaded_resumes=uploaded_resumes)
 
 @app.route('/delete_uploaded', methods=['POST'])
@@ -293,3 +300,22 @@ def delete_uploaded():
 
     flash('Resume was successfully deleted!')
     return redirect(url_for('uploaded_list'))
+
+
+@app.route('profile_form', methods=['GET', 'POST'])
+def profile_form():
+    db = get_db()
+    user_id = session['user_id']
+    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM profiles WHERE user_id=?', (user_id,))
+    profiles = current.fetchall()
+
+    return render_template('edit_resume.html', profiles=profiles)
+
+@app.route('edit_profile', methods=['POST'])
+def edit_profile():
+    db = get_db()
+    user_id = session['user_id']
+    db.execute("UPDATE profiles SET name=?, where user_id=?", (user_id,))
+    db.commit()
+    return redirect(url_for('profile_page'))
+

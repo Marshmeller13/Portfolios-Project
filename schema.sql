@@ -12,12 +12,25 @@ create table resume_entries (
     awards text not null,
     contact text not null
 );
+drop table if exists profiles;
+create table profiles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES user(id)
+    name text not null,
+    profile_pic blob not null,
+    job text not null,
+    about text not null,
 
+
+
+
+);
 
 
 drop table if exists uploaded_resumes;
 create table uploaded_resumes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES user(id),
     position text not null,
     resume blob not null
 
