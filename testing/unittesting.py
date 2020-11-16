@@ -45,8 +45,7 @@ class FlaskrTestCase(unittest.TestCase):
     #
     def test_root(self):
         rv = self.app.get('/')
-        assert b'login' in rv.data
-        assert b'signup' not in rv.data
+        assert b'You should be redirected automatically to target URL:' in rv.data
 
 
     #
