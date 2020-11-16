@@ -214,7 +214,7 @@ class FlaskrTestCase(unittest.TestCase):
     #
     def test_profile_page(self):
         rv = self.app.get('/profile_page')
-        assert b'<!--correctly directed to profile_page.html-->' in rv.data
+        assert b'<!--Profile Display-->' in rv.data
 
 
     #
