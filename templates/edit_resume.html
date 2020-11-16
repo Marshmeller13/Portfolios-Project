@@ -3,67 +3,41 @@
 {% block head %}
     {{ super() }}
 <head>
-    <!--<link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />-->
+    <link rel="stylesheet" type="text/css" href="static/styles_edit.css" media="screen" />
 </head>
 
-<div>
+
+<div class = "page">
+
 <ul class="resume_entries">
   {% for entry in resume_entries %}
-    <li><h2>
-        {{ entry.name }}
-        <br></h2>
-        <h4>
-        {{ entry.age }}
-        </h4>
-        <h4>
-        {{ entry.work_exp }}
-        </h4>
-        <h4>
-        {{ entry.education_hs }}
-        </h4>
-        <h4>
-        {{ entry.education_college }}
-        </h4>
-        <h4>
-        {{ entry.graduated }}
-        </h4>
 
-        <h4>
-        {{ entry.skills }}
-        </h4>
-
-        <h4>
-        {{ entry.awards }}
-        </h4>
-
-        <h4>
-        {{ entry.contact }}
-        </h4>
+    <li class="list-unstyled">
     <form action = "{{ url_for('edit_resume')}}?id={{ entry.id }}" method = "POST" class = 'create_resume'>
-        <dl>
+
       <dt>Name:
-      <dd><input type="text" size="30" name="name">
+      <dd><input type="text" size="30" name="name" value = "{{ entry.name }}">
       <dt>Age:
-      <dd><input type="text" size = "30" name = "age">
+      <dd><input type="text" size = "30" name = "age" value = "{{ entry.age }}">
       <dt>Work Experience:
-      <dd><input type="text" size = "30" name = "work_exp">
+      <dd><input type="text" size = "30" name = "work_exp" value = "{{ entry.work_exp }}">
       <dt>High School Education:
-      <dd><input type="text" size = "30" name = "education_hs">
+      <dd><input type="text" size = "30" name = "education_hs" value = "{{ entry.education_hs }}">
       <dt>College Education:
-      <dd><input type="text" size = "30" name = "education_college">
+      <dd><input type="text" size = "30" name = "education_college" value = "{{ entry.education_college }}">
       <dt>Graduated:
-      <dd><input type="text" size = "30" name = "graduated">
+      <dd><input type="text" size = "30" name = "graduated" value = "{{ entry.graduated }}">
 
       <dt>Skills:
-      <dd><input type="text" size = "30" name = "skills">
+      <dd><input type="text" size = "30" name = "skills" value = "{{ entry.skills }}">
       <dt>Awards or Special Recognitions:
-      <dd><input type="text" size = "30" name = "awards">
+      <dd><input type="text" size = "30" name = "awards" value = "{{ entry.awards }}">
       <dt>Contact Info:
-      <dd><input type="text" size = "30" name = "contact">
+      <dd><input type="text" size = "30" name = "contact" value = "{{ entry.contact }}">
                 <input type = 'hidden' name = 'id' value = "{{ entry.id }}"
-          <dd><input type="submit" value="Submit">
+          <br><br><br><dd><input type="submit" value="Submit" class="btn btn-primary">
 
-    </dl>
+
   </form>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
