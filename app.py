@@ -63,7 +63,8 @@ def home():
 @app.route('/show_template')
 def show_resume():
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries')
+    refid = session['user_id']
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries WHERE refid=?', (refid,))
     resume_entries = cur.fetchall()
 
     return render_template('resume_template_orig.html', resume_entries = resume_entries)
@@ -302,20 +303,41 @@ def delete_uploaded():
     return redirect(url_for('uploaded_list'))
 
 
-@app.route('profile_form', methods=['GET', 'POST'])
+@app.route('/profile_form', methods=['GET', 'POST'])
 def profile_form():
     db = get_db()
     user_id = session['user_id']
-    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM profiles WHERE user_id=?', (user_id,))
+    current = db.execute('SELECT name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?',(user_id,))
     profiles = current.fetchall()
 
-    return render_template('edit_resume.html', profiles=profiles)
-
-@app.route('edit_profile', methods=['POST'])
+    return render_template('create_profile.html', profiles=profiles)
+@app.route('/edit_profile', methods=['POST'])
 def edit_profile():
     db = get_db()
     user_id = session['user_id']
-    db.execute("UPDATE profiles SET name=?, where user_id=?", (user_id,))
+    db.execute("UPDATE profiles SET name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website, where user_id=?",
+               [request.args['name'], request.args['profile_pic'], request.args['job'], request.args['school1'], request.args['school1_info'], request.args['school2'], request.args['school2_info'], request.args['school3'], request.args['school3_info'], request.args['language1'], request.args['language2'], request.args['language3'], request.args['language4'], request.args['language5'], request.args['language6'], request.args['language7'],
+                request.args['exp1'], request.args['company1'], request.args['dur1'], request.args['desc1'], request.args['exp2'], request.args['company2'], request.args['dur2'], request.args['desc2'], request.args['address'], request.args['phone'], request.args['email'], request.args['website'], (user_id,)])
     db.commit()
+    return redirect(url_for('profile_page'))
+
+
+@app.route('/create_profile', methods=['POST'])
+def create_profile():
+    db = get_db()
+
+
+    user_id = session['user_id']
+    profile_pic = request.files['file']
+    profile_pic = convertToBinaryData(profile_pic)
+    sqlite_insert_blob_query = """ INSERT INTO profiles(name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, user_id, website ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+    data_tuple = (request.form['name'], (profile_pic,), request.form['job'], request.form['school1'], request.form['school1_info'], request.form['school2'], request.form['school2_info'], request.form['school3'], request.form['school3_info'],
+                request.form['language1'], request.form['language2'], request.form['language3'], request.form['language4'], request.form['language5'], request.form['language6'], request.form['language7'],
+                request.form['exp1'], request.form['company1'], request.form['dur1'], request.form['desc1'], request.form['exp2'], request.form['company2'], request.form['dur2'], request.form['desc2'], request.form['address'], request.form['phone'], request.form['email'], int(user_id,),
+                request.form['website'])
+    db.execute(sqlite_insert_blob_query, data_tuple)
+
+    db.commit()
+    db.close()
     return redirect(url_for('profile_page'))
 
