@@ -159,7 +159,7 @@ def insert_resume():
         db.commit()
         print("Image and file inserted successfully as a BLOB into a table")
         db.close()
-        return redirect(url_for('show_profile'))
+        return redirect(url_for('profile_page'))
 
     except sqlite3.Error as error:
         print("Failed to insert blob data into sqlite table", error)
