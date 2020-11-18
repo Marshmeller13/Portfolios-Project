@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="static/styles_profile_{{ profiles.theme }}.css" media="screen" />
 </head>
 
-    <div class="share-button1"><a href='mailto:?&amp;Body=Hello, my name is ___. You can view my portfolio here http://127.0.0.1:5000/'>
+    <div class="share-button1"><a href='mailto:?&amp;Body=Hello, my name is {{ profiles.id }}. You can view my portfolio here http://127.0.0.1:5000/'>
         <img src="static/email.png" alt="email logo"/>
         </a></div></div>
 
@@ -59,14 +59,14 @@
                     <p>{{ profiles.school1_info }}</p>
                     <h4>{{ profiles.school2 }}</h4>
                     <p>{{ profiles.school2_info }}</p>
-                    <h4>{{ profiles.school3 }}</h4>
-                    <p>{{ profiles.school3_info }}</p>
+                    <h3 class="accent">About Me</h3>
+                    <p>{{ profiles.about_info }}</p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="languages">
                     <h2>Languages</h2>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>{{ profiles.language1 }}</li>
                         <li>{{ profiles.language2 }}</li>
                         <li>{{ profiles.language3 }}</li>

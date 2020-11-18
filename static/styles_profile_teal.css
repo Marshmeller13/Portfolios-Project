@@ -157,15 +157,31 @@ h2 {
   color: #fff;
 }
 
+/*Sets sizes for profile page information*/
+.container {
+    overflow: hidden;
+}
+
 .about, .languages {
   padding: 40px;
   min-height: 360px;
-
+    float: left;
+    margin: 20px;
+    padding-bottom: 100%;
+    margin-bottom: -100%;
 }
 
 .experience, .contact {
   padding: 40px;
   min-height: 360px;
+    float: left;
+    margin: 20px;
+    padding-bottom: 100%;
+    margin-bottom: -100%;
+}
+
+.about, .experience, .languages, .contact{
+    width: 100%;
 }
 
 
