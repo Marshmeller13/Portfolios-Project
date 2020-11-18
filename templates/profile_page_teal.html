@@ -8,12 +8,12 @@
     <link rel="stylesheet" type="text/css" href="static/styles_profile_teal.css" media="screen" />
 </head>
 
-    <div class="share-button1"><a href='mailto:?&amp;Body=Hello, my name is ___. You can view my portfolio here http://127.0.0.1:5000/'>
+    <div class="share-button1"><a href='mailto:?&amp;Body=Hello, my name is {{ profiles.name }}. You can view my portfolio here http://127.0.0.1:5000/'>
         <img src="static/email.png" alt="email logo"/>
         </a></div></div>
 
 
-        <!-- LinkedIn (Not real domain as profile_page_blue.html is not a valid URL) -->
+        <!-- LinkedIn (Not real domain as profile_page_blue.html is not a valid URL)  -->
 
     <div class="share-button2"><a href="http://www.linkedin.com/shareArticle?&amp;url=https://php.iwu.edu/directory/employees.php?netid=mliffito" >
         <img src="static/linkedin.png" alt="email logo"/>
@@ -23,9 +23,6 @@
     <div class="share-button3"><a href="https://plus.google.com/share?url=https://php.iwu.edu/directory/employees.php?netid=mliffito" target="_blank">
         <img src="static/google.png" alt="email logo"/>
         </a></div>
-
-
-
 
 
         <!-- header section-->
@@ -59,14 +56,14 @@
                     <p>{{ profiles.school1_info }}</p>
                     <h4>{{ profiles.school2 }}</h4>
                     <p>{{ profiles.school2_info }}</p>
-                    <h4>{{ profiles.school3 }}</h4>
-                    <p>{{ profiles.school3_info }}</p>
+                    <br><br><h3 class="accent">About Me</h3>
+                    <p>{{ profiles.about_info }}</p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="languages">
                     <h2>Languages</h2>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>{{ profiles.language1 }}</li>
                         <li>{{ profiles.language2 }}</li>
                         <li>{{ profiles.language3 }}</li>

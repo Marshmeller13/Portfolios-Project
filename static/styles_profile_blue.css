@@ -159,23 +159,31 @@ h2 {
   color: #fff;
 }
 
-/*Size for about and language section*/
+.container {
+    overflow: hidden;
+}
+
 .about, .languages {
-
   padding: 40px;
   min-height: 360px;
-
+    float: left;
+    margin: 20px;
+    padding-bottom: 100%;
+    margin-bottom: -100%;
 }
 
-/*Size for about and language section*/
 .experience, .contact {
-
   padding: 40px;
   min-height: 360px;
-
+    float: left;
+    margin: 20px;
+    padding-bottom: 100%;
+    margin-bottom: -100%;
 }
 
-
+.about, .experience, .languages, .contact{
+    width: 100%;
+}
 
 
 /* header section */
