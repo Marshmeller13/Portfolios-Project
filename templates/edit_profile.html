@@ -3,9 +3,9 @@
 {% extends "layout.html" %}
 {% block head %}
     {{ super() }}
-
+<form action = "{{ url_for('edit_profile')}}?user_id={{profiles.user_id }}" method = "POST" class = 'edit_profile' enctype = "multipart/form-data">
 <head>
-    <link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="static/styles_profile_{{ profiles.theme }}.css" media="screen" />
 </head>
 
 
@@ -17,10 +17,10 @@
   </button>
   <div class="dropdown-menu">
     <!-- Dropdown menu links -->
-        <a class="dropdown-item" href="/profile_page">Purple</a>
-        <a class="dropdown-item" href="/profile_page_red">Red</a>
-        <a class="dropdown-item" href="/profile_page_green">Green</a>
-        <a class="dropdown-item" href="/profile_page_teal">Teal</a>
+        <a class="dropdown-item"><input type="radio" id="purple" name="theme" value="blue">Blue</a>
+        <a class="dropdown-item"><input type="radio" id="red" name="theme" value="red">Red</a>
+        <a class="dropdown-item"><input type="radio" id="green" name="theme" value="green">Green</a>
+        <a class="dropdown-item"><input type="radio" id="teal" name="theme" value="teal">Teal</a>
     </div>
   </div>
 
@@ -29,7 +29,7 @@
  
 
 
-    <form action = "{{ url_for('edit_profile')}}?user_id={{profiles.user_id }}" method = "POST" class = 'edit_profile' enctype = "multipart/form-data">
+
 
         <!-- header section-->
     <header>
@@ -39,12 +39,12 @@
                     <div class="empty_profile">
                         <!--Will give users the ability to upload profile pic in next iteration use this resource https://stackoverflow.com/questions/13350781/how-to-allow-users-to-add-image-for-their-profile-->
                     <img src="/docs/pic{{ profiles.id }}" class="img-responsive img-circle" alt="Profile Picture">
-                        <input type = "file" name = "file" id = 'file' />
+                        <input type = "file" name = "file" id = 'file'/>
                     </div>
                     <hr>
 
-                    <h1 class="tm-title bold"><input type="text" class="form-control" name="name" value = "{{profiles.name }}"></h1>
-                    <h1 class="white bold"><input type="text" class="form-control" name="job" value = "{{profiles.job }}"></h1>
+                    <h1 class="tm-title bold"><input type="text" class="form-control" name="name" value = "{{profiles.name }}" placeholder="First Name - Last Name"></h1>
+                    <h1 class="white bold"><input type="text" class="form-control" name="job" value = "{{profiles.job }}" placeholder="Job Title"></h1>
 
                     <!--Where resume will go for resume preview (Has placeholder currently waiting for Noahs resume display feature to be completed)-->
 
@@ -59,25 +59,25 @@
             <div class="col-8">
                 <div class="about">
                     <h3 class="accent">Schooling</h3>
-                    <h4><input type="text" class="form-control" name="school1" value = "{{profiles.school1 }}"></h4>
-                    <p><input type="text" class="form-control" name="school1_info" value = "{{profiles.school1_info }}"></p>
-                    <h4><input type="text" class="form-control" name="school2" value = "{{profiles.school2 }}"></h4>
-                    <p><input type="text" class="form-control" name="school2_info" value = "{{profiles.school2_info }}"></p>
-                    <h4><input type="text" class="form-control" name="school3" value = "{{profiles.school3 }}"></h4>
-                    <p><input type="text" class="form-control" name="school3_info" value = "{{profiles.school3_info }}"></p>
+                    <h4><input type="text" class="form-control" name="school1" value = "{{profiles.school1 }}" placeholder="First School"></h4>
+                    <p><input type="text" class="form-control" name="school1_info" value = "{{profiles.school1_info }}"placeholder="Duration and Info"></p>
+                    <h4><input type="text" class="form-control" name="school2" value = "{{profiles.school2 }}" placeholder="Second School"></h4>
+                    <p><input type="text" class="form-control" name="school2_info" value = "{{profiles.school2_info }}"placeholder="Duration and Info"></p>
+                    <h4><input type="text" class="form-control" name="school3" value = "{{profiles.school3 }}" placeholder="Third School"></h4>
+                    <p><input type="text" class="form-control" name="school3_info" value = "{{profiles.school3_info }}" placeholder="Duration and Info"></p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="languages">
                     <h2>Languages</h2>
                     <ul>
-                        <li><input type="text" class="form-control" name="language1" value = "{{profiles.language1 }}"></li>
-                        <li><input type="text" class="form-control" name="language2" value = "{{profiles.language2 }}"></li>
-                        <li><input type="text" class="form-control" name="language3" value = "{{profiles.language3 }}"></li>
-                        <li><input type="text" class="form-control" name="language4" value = "{{profiles.language4 }}"></li>
-                        <li><input type="text" class="form-control" name="language5" value = "{{profiles.language5 }}"></li>
-                        <li><input type="text" class="form-control" name="language6" value = "{{profiles.language6 }}"></li>
-                        <li><input type="text" class="form-control" name="language7" value = "{{profiles.language7 }}"></li>
+                        <li><input type="text" class="form-control" name="language1" value = "{{profiles.language1 }}" placeholder="Language 1"></li>
+                        <li><input type="text" class="form-control" name="language2" value = "{{profiles.language2 }}" placeholder="Language 2"></li>
+                        <li><input type="text" class="form-control" name="language3" value = "{{profiles.language3 }}" placeholder="Language 3"></li>
+                        <li><input type="text" class="form-control" name="language4" value = "{{profiles.language4 }}" placeholder="Language 4"></li>
+                        <li><input type="text" class="form-control" name="language5" value = "{{profiles.language5 }}" placeholder="Language 5"></li>
+                        <li><input type="text" class="form-control" name="language6" value = "{{profiles.language6 }}" placeholder="Language 6"></li>
+                        <li><input type="text" class="form-control" name="language7" value = "{{profiles.language7 }}" placeholder="Language 7"></li>
                     </ul>
                 </div>
         </div>
@@ -91,25 +91,25 @@
                 <div class="experience">
                     <h2 class="white">Experiences</h2>
                     <div class="experience-content">
-                        <h4 class="experience-title accent"><input type="text" class="form-control" name="exp1" value = "{{profiles.exp1 }}"></h4>
-                        <h5><input type="text" class="form-control" name="company1" value = "{{profiles.company1 }}"></h5><span></span>
-                        <h5><input type="text" class="form-control" name="dur1" value = "{{profiles.dur1 }}"></h5>
-                        <p class="education-description"><input type="text" class="form-control" name="desc1" value = "{{profiles.desc1 }}"></p>
+                        <h4 class="experience-title accent"><input type="text" class="form-control" name="exp1" value = "{{profiles.exp1 }}" placeholder="Job Title"></h4>
+                        <h5><input type="text" class="form-control" name="company1" value = "{{profiles.company1 }}" placeholder="Company"></h5><span></span>
+                        <h5><input type="text" class="form-control" name="dur1" value = "{{profiles.dur1 }}" placeholder="Duration of Employment"></h5>
+                        <p class="education-description"><input type="text" class="form-control" name="desc1" value = "{{profiles.desc1 }}" placeholder="Duration of Employment"></p>
 
-                        <h4 class="experience-title accent"><input type="text" class="form-control" name="exp2" value = "{{profiles.exp2 }}"></h4>
-                        <h5><input type="text" class="form-control" name="company2" value = "{{profiles.company2 }}"></h5><span></span>
-                        <h5><input type="text" class="form-control" name="dur2" value = "{{profiles.dur2 }}"></h5>
-                        <p class="education-description"><input type="text" class="form-control" name="desc2" value = "{{profiles.desc2 }}"></p>
+                        <h4 class="experience-title accent"><input type="text" class="form-control" name="exp2" value = "{{profiles.exp2 }}" placeholder="Job Title"></h4>
+                        <h5><input type="text" class="form-control" name="company2" value = "{{profiles.company2 }}" placeholder="Company"></h5><span></span>
+                        <h5><input type="text" class="form-control" name="dur2" value = "{{profiles.dur2 }}" placeholder="Duration of Employment"></h5>
+                        <p class="education-description"><input type="text" class="form-control" name="desc2" value = "{{profiles.desc2 }}" placeholder="Description of Employment"></p>
                     </div>
                 </div>
             </div>
             <div class="col-4">
                   <div class="contact">
                     <h2>Contact</h2>
-                    <p><i class="fa fa-map-marker"></i><input type="text" class="form-control" name="address" value = "{{profiles.address }}"></p>
-                    <p><i class="fa fa-phone"></i><input type="text" class="form-control" name="phone" value = "{{profiles.phone }}"></p>
-                    <p><i class="fa fa-envelope"></i><input type="text" class="form-control" name="email" value = "{{profiles.email }}"></p>
-                    <p><i class="fa fa-globe"></i><input type="text" class="form-control" name="website" value = "{{profiles.website }}"></p>
+                    <p><i class="fa fa-map-marker"></i><input type="text" class="form-control" name="address" value = "{{profiles.address }}" placeholder="Address"></p>
+                    <p><i class="fa fa-phone"></i><input type="text" class="form-control" name="phone" value = "{{profiles.phone }}" placeholder="Phone"></p>
+                    <p><i class="fa fa-envelope"></i><input type="text" class="form-control" name="email" value = "{{profiles.email }}" placeholder="Email"></p>
+                    <p><i class="fa fa-globe"></i><input type="text" class="form-control" name="website" value = "{{profiles.website }}" placeholder="Website"></p>
                 </div>
                 <input type="submit" value="Share" class="btn btn-primary">
             </div>

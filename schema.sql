@@ -16,7 +16,7 @@ drop table if exists profiles;
 create table profiles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES user(id),
-    theme text,
+    theme blob,
     name text,
     profile_pic blob,
     job text,

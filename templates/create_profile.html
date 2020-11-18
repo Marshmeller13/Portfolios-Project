@@ -7,24 +7,20 @@
     <link rel="stylesheet" type="text/css" href="static/styles_profile.css" media="screen" />
 </head>
 
+  <form action = "{{ url_for('create_profile')}}?user_id={{profiles.user_id }}" method = "POST" class = 'create_profile' enctype = "multipart/form-data">
+
 <div class="btn-group ">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Themes
   </button>
   <div class="dropdown-menu">
     <!-- Dropdown menu links -->
-        <a class="dropdown-item" href="/profile_page">Purple</a>
-        <a class="dropdown-item" href="/profile_page_red">Red</a>
-        <a class="dropdown-item" href="/profile_page_green">Green</a>
-        <a class="dropdown-item" href="/profile_page_teal">Teal</a>
-
+        <a class="dropdown-item"><input type="radio" id="purple" name="theme" value="blue">Purple</a>
+        <a class="dropdown-item"><input type="radio" id="red" name="theme" value="red">Red</a>
+        <a class="dropdown-item"><input type="radio" id="green" name="theme" value="green">Green</a>
+        <a class="dropdown-item"><input type="radio" id="teal" name="theme" value="teal">Teal</a>
+    </div>
   </div>
-</div>
-
-
-
-
-<form action = "{{ url_for('create_profile')}}" method = "POST" class = 'create_profile' enctype = "multipart/form-data">
         <!-- header section-->
     <header>
         <div class="container">
