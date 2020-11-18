@@ -63,7 +63,8 @@ def home():
 @app.route('/show_template')
 def show_resume():
     db = get_db()
-    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries')
+    refid = session['user_id']
+    cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries WHERE refid=?', (refid,))
     resume_entries = cur.fetchall()
 
     return render_template('resume_template_orig.html', resume_entries = resume_entries)
@@ -108,7 +109,7 @@ def login():
             session['user_id'] = use_id
 
 
-            return render_template('resume_template_orig.html')
+            return redirect(url_for('profile_form'))
 
         #flash error encountered (if any)
         flash(error)
@@ -122,8 +123,6 @@ def upload():
 
 def convertToBinaryData(file):
     #Convert digital data to binary format
-
-
     blobData = request.files['file'].read()
 
     return blobData
@@ -207,19 +206,46 @@ def delete_resume():
 "redirects user to profile page"
 @app.route('/profile_page')
 def show_profile():
-    return render_template('profile_page.html')
+
+    user_id = session['user_id']
+    db = get_db()
+    cur = db.execute('SELECT id, name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?', (user_id,))
+    profiles = cur.fetchone()
+    make_pic(profiles['id'])
+    return render_template('profile_page.html', profiles=profiles)
+
 
 @app.route('/profile_page_red')
 def show_profile_red():
-    return render_template('profile_page_red.html')
+
+    user_id = session['user_id']
+    db = get_db()
+    cur = db.execute('SELECT id, name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?', (user_id,))
+    profiles = cur.fetchone()
+    make_pic(profiles['id'])
+    return render_template('profile_page_red.html', profiles=profiles)
+
 
 @app.route('/profile_page_green')
 def show_profile_green():
-    return render_template('profile_page_green.html')
+
+    user_id = session['user_id']
+    db = get_db()
+    cur = db.execute('SELECT id, name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?', (user_id,))
+    profiles = cur.fetchone()
+    make_pic(profiles['id'])
+    return render_template('profile_page_green.html', profiles=profiles)
+
 
 @app.route('/profile_page_teal')
 def show_profile_teal():
-    return render_template('profile_page_teal.html')
+
+    user_id = session['user_id']
+    db = get_db()
+    cur = db.execute('SELECT id, name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?', (user_id,))
+    profiles = cur.fetchone()
+    make_pic(profiles['id'])
+    return render_template('profile_page_teal.html', profiles=profiles)
 
 
 @app.route('/resumes')
@@ -228,7 +254,7 @@ def display_resumes():
     user_id = session['user_id']
     db = get_db()
     cur = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM resume_entries WHERE refid=?', (user_id,))
-    resume_entries = cur.fetchall()                                                                                                            #^ add above when cookies are implemented and posts will only display those made by the user logged in
+    resume_entries = cur.fetchall()
     return render_template('posts_page.html', resume_entries=resume_entries)
 
 
@@ -291,6 +317,7 @@ def uploaded_list():
     uploaded_resumes = cur.fetchall()
     return render_template('uploaded_list.html', uploaded_resumes=uploaded_resumes)
 
+
 @app.route('/delete_uploaded', methods=['POST'])
 def delete_uploaded():
     db = get_db()
@@ -302,20 +329,77 @@ def delete_uploaded():
     return redirect(url_for('uploaded_list'))
 
 
-@app.route('profile_form', methods=['GET', 'POST'])
+@app.route('/profile_form', methods=['GET', 'POST'])
 def profile_form():
     db = get_db()
     user_id = session['user_id']
-    current = db.execute('SELECT name, age, work_exp, education_hs, education_college, graduated, skills, awards, contact, id FROM profiles WHERE user_id=?', (user_id,))
-    profiles = current.fetchall()
+    current = db.execute('SELECT name, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?',(user_id,))
+    profiles = current.fetchone()
 
-    return render_template('edit_resume.html', profiles=profiles)
+    return render_template('create_profile.html', profiles=profiles)
 
-@app.route('edit_profile', methods=['POST'])
+
+@app.route('/edit_profile', methods=['POST'])
 def edit_profile():
     db = get_db()
     user_id = session['user_id']
-    db.execute("UPDATE profiles SET name=?, where user_id=?", (user_id,))
+    profile_pic = request.files['file']
+    profile_pic = convertToBinaryData(profile_pic)
+    db.execute("UPDATE profiles SET name=?, profile_pic=?, job=?, school1=?, school1_info=?, school2=?, school2_info=?, school3=?, school3_info=?, language1=?, language2=?, language3=?, language4=?, language5=?, language6=?, language7=?, exp1=?, company1=?, dur1=?, desc1=?, exp2=?, company2=?, dur2=?, desc2=?, address=?, phone=?, email=?, website=? WHERE user_id=?",
+               [request.form['name'], profile_pic, request.form['job'], request.form['school1'], request.form['school1_info'], request.form['school2'], request.form['school2_info'], request.form['school3'], request.form['school3_info'], request.form['language1'], request.form['language2'], request.form['language3'], request.form['language4'], request.form['language5'], request.form['language6'], request.form['language7'],
+                request.form['exp1'], request.form['company1'], request.form['dur1'], request.form['desc1'], request.form['exp2'], request.form['company2'], request.form['dur2'], request.form['desc2'], request.form['address'], request.form['phone'], request.form['email'], request.form['website'], int(user_id,)])
     db.commit()
-    return redirect(url_for('profile_page'))
+    return redirect(url_for('show_profile'))
+
+
+@app.route('/edit_profile_form', methods=['GET', 'POST'])
+def edit_profile_form():
+    db = get_db()
+
+    user_id = int(session['user_id'])
+    current = db.execute('SELECT name, id, profile_pic, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website FROM profiles WHERE user_id=?', (user_id,))
+    profiles = current.fetchone()
+    make_pic(profiles['id'])
+
+
+    return render_template('edit_profile.html', profiles=profiles)
+
+
+@app.route('/create_profile', methods=['POST'])
+def create_profile():
+    db = get_db()
+    user_id = session['user_id']
+    profile_pic = request.files['file']
+    profile_pic = convertToBinaryData(profile_pic)
+    sqlite_insert_blob_query = """ INSERT INTO profiles(name, profile_pic, user_id, job, school1, school1_info, school2, school2_info, school3, school3_info, language1, language2, language3, language4, language5, language6, language7, exp1, company1, dur1, desc1, exp2, company2, dur2, desc2, address, phone, email, website ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) """
+    data_tuple = (request.form['name'], profile_pic, int(user_id,), request.form['job'], request.form['school1'], request.form['school1_info'], request.form['school2'], request.form['school2_info'], request.form['school3'], request.form['school3_info'],
+                request.form['language1'], request.form['language2'], request.form['language3'], request.form['language4'], request.form['language5'], request.form['language6'], request.form['language7'],
+                request.form['exp1'], request.form['company1'], request.form['dur1'], request.form['desc1'], request.form['exp2'], request.form['company2'], request.form['dur2'], request.form['desc2'], request.form['address'], request.form['phone'], request.form['email'],
+                request.form['website'])
+    db.execute(sqlite_insert_blob_query, data_tuple)
+
+    db.commit()
+    db.close()
+    return redirect(url_for('show_profile'))
+
+@app.route('/get_pic', methods=['GET'])
+def get_pic(id):
+    db = get_db()
+    user_id = session['user_id']
+    cur = db.execute('SELECT profile_pic FROM profiles WHERE user_id=?', (user_id,))
+    profile = cur.fetchone()
+    pic = profile['profile_pic']
+
+    return pic
+
+
+@app.route('/docs/pic<id>')
+def make_pic(id=None):
+    if id is not None:
+        pic_res = get_pic(id)
+        response = make_response(pic_res)
+        response.headers['Content-Type'] = 'image/png'
+        response.headers['Content-Disposition'] = 'inline; filename=%s.png' % 'pdf_upload'
+
+        return response
 
