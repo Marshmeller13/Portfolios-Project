@@ -108,8 +108,21 @@ def login():
             session.clear()
             session['user_id'] = use_id
 
+            current = db.execute('SELECT name, user_id FROM profiles WHERE user_id=?', (use_id,))
+            profiles = current.fetchone()
+            try:
+                if profiles['user_id']:
+                    return redirect(url_for('profile_page'))
+                else:
+                    return redirect(url_for('profile_form'))
 
-            return redirect(url_for('profile_form'))
+            except TypeError:
+                return redirect(url_for('profile_form'))
+
+
+
+
+
 
         #flash error encountered (if any)
         flash(error)
