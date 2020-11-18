@@ -30,14 +30,23 @@ class FlaskrTestCase(unittest.TestCase):
     #/signup             X
     #/delete_resume      X
     #/profile_page       X
+    #  -red              X
+    #  -green            X
+    #  -teal             X
     #/resumes            X
     #/edit_resume        X
     #/edit_page          Can't test
     #/get_blob           Can't test
-    #/make_pdf           Can't test
-    #/display_uploaded   Incomplete function
-    #/uploaded_list      Incomplete function
-    #/delete_uploaded    Can't test until above is resolved
+    #/docs/<id>          Can't test - can't simulate session id
+    #/<id>               Can't test - can't simulate session id
+    #/uploaded_list      'position' form needs resolved
+    #/delete_uploaded    Can't test - 'position' form needs resolved
+    #/profile_form       Can't test - can't simulate session id
+    #/edit_profile       Can't test - can't simulate session id
+    #/edit_profile_form  Can't test - can't simulate session id
+    #/create_porfile     Can't test - can't simulate session id
+    #/docs/pic<id>       Can't test - can't simulate session id
+
 
 
     #
@@ -215,6 +224,21 @@ class FlaskrTestCase(unittest.TestCase):
     def test_profile_page(self):
         rv = self.app.get('/profile_page')
         assert b'<!--Profile Display-->' in rv.data
+
+    ## red profile page
+    def test_profile_page_red(self):
+        rv = self.app.get('/profile_page_red')
+        assert b'static/styles_profile_red.css' in rv.data
+
+    ## green profile page
+    def test_profile_page_green(self):
+        rv = self.app.get('/profile_page_green')
+        assert b'static/styles_profile_green.css' in rv.data
+
+    ## teal profile page
+    def test_profile_page_teal(self):
+        rv = self.app.get('/profile_page_teal')
+        assert b'static/styles_profile_teal.css' in rv.data
 
 
     #
