@@ -40,9 +40,13 @@ class FlaskrTestCase(unittest.TestCase):
     #/docs/<id>          Can't test - can't simulate session id
     #/<id>               Can't test - can't simulate session id
     #/uploaded_list      'position' form needs resolved
-    #/delete_uploaded    
-    #profile_form        Can't test - can't simulate session id
-    #edit_profile        Can't test - can't simulate session id
+    #/delete_uploaded    Can't test - 'position' form needs resolved
+    #/profile_form       Can't test - can't simulate session id
+    #/edit_profile       Can't test - can't simulate session id
+    #/edit_profile_form  Can't test - can't simulate session id
+    #/create_porfile     Can't test - can't simulate session id
+    #/docs/pic<id>       Can't test - can't simulate session id
+
 
 
     #
